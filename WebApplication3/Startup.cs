@@ -60,9 +60,10 @@ namespace WebApplication3
             {
                // app.UseHsts();
             }
+            app.UseAuthentication();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             //app.UseHttpsRedirection();
-            app.UseAuthentication();
+            
             app.UseMvc();
         }
     }
