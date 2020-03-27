@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // we declare that this service should be created
+  // by the root application injector.
+ )
 export class AuthService {
 
   baseURL = 'https://localhost:44351/api/auth/'
