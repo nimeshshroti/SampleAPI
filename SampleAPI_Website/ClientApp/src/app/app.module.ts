@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { BsDropdownModule } from 'ngx-bootstrap'
+import { BsDropdownModule } from 'ngx-bootstrap';
 
 
 import { AppComponent } from './app.component';
@@ -15,10 +15,14 @@ import { NavComponent } from './nav/nav.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HomeeComponent } from './homee/homee.component';
 import { RegisterComponent } from './register/register.component';
+import { MemberListComponent } from './member-list/member-list.component';
+import { MessagesComponent } from './messages/messages.component';
+import { ListsComponent } from './lists/lists.component';
 import { AuthService } from './_services/auth.service';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
-
+import { appRoutes } from './routes';
+import { AuthGuard } from './_guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -30,26 +34,22 @@ import { AlertifyService } from './_services/alertify.service';
     CounterComponent,
     ValueComponent,
     NavComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    MemberListComponent,
+    MessagesComponent,
+    ListsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule, BsDropdownModule.forRoot(), 
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'value', component: ValueComponent },
-      { path: 'nav', component: NavComponent },
-      { path: 'homee', component: HomeeComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'fetch-data', component: FetchDataComponent }      
-    ])
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     AuthService,
     ErrorInterceptorProvider,
-    AlertifyService
+    AlertifyService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
