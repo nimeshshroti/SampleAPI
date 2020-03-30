@@ -51,15 +51,15 @@ namespace SampleAPI.Controllers
         // POST: /<controller>/
         public async Task<IActionResult> Login(UserForLoginDTO userForLoginDTO)
         {
-            var UserFromRepo = _repo.Login(userForLoginDTO.username.ToLower(), userForLoginDTO.password);
+            var UserFromRepo =  await _repo.Login(userForLoginDTO.username.ToLower(), userForLoginDTO.password);
 
-            if (UserFromRepo.Result == null)
+            if (UserFromRepo == null)
                 return Unauthorized();
 
             var Claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier,UserFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name,UserFromRepo.Id.ToString())
+                new Claim(ClaimTypes.Name,UserFromRepo.Username.ToString())
             };
 
             var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Appsettings:Token").Value));

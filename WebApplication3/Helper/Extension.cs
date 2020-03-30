@@ -14,5 +14,15 @@ namespace SampleAPI.Helpers
             response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
             response.Headers.Add("Access-Control-Allow-Origin", "*");
         }
+
+        public static int CalculateAge(this DateTime DateofBirth)
+        {
+            var Age = DateTime.Today.Year - DateofBirth.Year;
+            if(DateTime.Today.AddYears(Age)>DateTime.Now)
+            {
+                Age--;
+            }
+            return Age;
+        }
     }
 }
