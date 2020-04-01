@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\_models\" />
     <Folder Include="ClientApp\src\app\_guards\" />
   </ItemGroup>
 
