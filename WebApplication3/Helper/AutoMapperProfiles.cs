@@ -30,6 +30,7 @@ namespace SampleAPI.Helper
                              opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
                          });
             CreateMap<Photo, PhotosForDetailedDTO>();
+            CreateMap<UserForUpdateDTO, User>();
         }
     }
 }

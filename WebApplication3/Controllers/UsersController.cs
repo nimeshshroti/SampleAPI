@@ -47,58 +47,21 @@ namespace SampleAPI.Controllers
             var UserToReturn = _mapper.Map<UserForDetailedDTO>(User);
             return Ok(UserToReturn);
         }
-        //[HttpPost("register")]
-        //// Post: /<controller>/
-        //public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDTO)
-        //{
-        //    userForRegisterDTO.username = userForRegisterDTO.username.ToLower();
-        //    if (await _repo.UserExists(userForRegisterDTO.username))
-        //     return BadRequest("User already exists, please choose different name");
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditUser(int id, UserForUpdateDTO userForUpdateDTO)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                { Unauthorized(); }
+            var userFromRepo = await _repo.GetUser(id);
+            _mapper.Map(userForUpdateDTO, userFromRepo);
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Updating user {id} failed on Save.");
+        }
 
 
-        //    var UserToCreate = new User()
-        //    {
-        //        Username = userForRegisterDTO.username
-        //    };
-
-        //    var CreatedUser = _repo.Register(UserToCreate, userForRegisterDTO.password);
-        //    return StatusCode(201);
-        //}
-
-        //[HttpPost("login")]
-        //// POST: /<controller>/
-        //public async Task<IActionResult> Login(UserForLoginDTO userForLoginDTO)
-        //{
-        //    var UserFromRepo = _repo.Login(userForLoginDTO.username.ToLower(), userForLoginDTO.password);
-
-        //    if (UserFromRepo.Result == null)
-        //        return Unauthorized();
-
-        //    var Claims = new[]
-        //    {
-        //        new Claim(ClaimTypes.NameIdentifier,UserFromRepo.Id.ToString()),
-        //        new Claim(ClaimTypes.Name,UserFromRepo.Id.ToString())
-        //    };
-
-        //    var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Appsettings:Token").Value));
-
-        //    var Creds = new SigningCredentials(Key, SecurityAlgorithms.HmacSha512Signature);
-
-        //    var TokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        Subject = new ClaimsIdentity(Claims),
-        //        Expires = DateTime.Now.AddDays(1),
-        //        SigningCredentials = Creds
-        //    };
-
-        //    var TokenHandler = new JwtSecurityTokenHandler();
-
-        //    var Token = TokenHandler.CreateToken(TokenDescriptor);
-
-        //    return Ok(new
-        //    {
-        //        Token=TokenHandler.WriteToken(Token)
-        //    });
-        //}
     }
 }

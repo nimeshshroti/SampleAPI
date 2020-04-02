@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from "../../_models/user";
+import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ['./member-list.component.css']
 })
 /** member-list component*/
-export class MemberListComponent implements OnInit{
+export class MemberListComponent implements OnInit {
   users: User[];
     /** member-list ctor */
   constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
@@ -20,14 +20,4 @@ export class MemberListComponent implements OnInit{
       this.users = data['users'];
     });
   }
-
-      //loadUsers(){
-      //  this.userService.getUsers().subscribe(
-      //    (users: User[])=> {
-      //      this.users = users;
-      //}, error => {
-      //  this.alertify.error(error);
-      //});
-      //}
-    
 }
