@@ -11,6 +11,6 @@ namespace SampleAPI.DTOs
         public string Url { get; set; }
         public string Description { get; set; }
         public DateTime Created { get; set; }
-        public bool Ismain { get; set; }
+        public bool isMain { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SampleAPI.Controllers;
 using SampleAPI.DTOs;
 using SampleAPI.Helpers;
 using SampleAPI.Model;
@@ -16,7 +17,7 @@ namespace SampleAPI.Helper
             CreateMap<User, UserForListDTO>().
                 ForMember(dest => dest.PhotoUrl, 
                          opt => {
-                             opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.Ismain).Url); 
+                             opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.isMain).Url); 
                                  })
                                  .ForMember(dest=>dest.Age,opt=> {
                                      opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
@@ -24,13 +25,18 @@ namespace SampleAPI.Helper
             CreateMap<User, UserForDetailedDTO>().
                       ForMember(dest => dest.PhotoUrl,
                          opt => {
-                             opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.Ismain).Url);
+                             opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.isMain).Url);
                          })
                          .ForMember(dest => dest.Age, opt => {
                              opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
                          });
             CreateMap<Photo, PhotosForDetailedDTO>();
             CreateMap<UserForUpdateDTO, User>();
+            CreateMap<Photo, PhotoForReturnDTO>();
+            CreateMap<PhotoForReturnDTO, Photo>();
+            //check
+            CreateMap<Photo, PhotoForCreationDTO>();
+            CreateMap<PhotoForCreationDTO, Photo>();
         }
     }
 }

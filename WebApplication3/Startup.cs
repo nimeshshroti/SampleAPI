@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using SampleAPI.Helpers;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
+using SampleAPI.Helper;
 
 namespace WebApplication3
 {
@@ -43,6 +44,7 @@ namespace WebApplication3
                 });
             services.AddCors();
             services.AddAutoMapper();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddTransient<Seed>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository,DatingRepository>();

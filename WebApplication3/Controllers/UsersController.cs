@@ -52,7 +52,7 @@ namespace SampleAPI.Controllers
         public async Task<IActionResult> EditUser(int id, UserForUpdateDTO userForUpdateDTO)
         {
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                { Unauthorized(); }
+                { return Unauthorized(); }
             var userFromRepo = await _repo.GetUser(id);
             _mapper.Map(userForUpdateDTO, userFromRepo);
 

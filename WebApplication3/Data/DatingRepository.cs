@@ -39,5 +39,18 @@ namespace SampleAPI.Data
         {
             return await _context.SaveChangesAsync()>0;
         }
+
+        public async Task<Photo> GetPhoto(int Id)
+        {
+            var Photo = await _context.Photos.FirstOrDefaultAsync(p => p.Id == Id);
+
+            return Photo;
+        }
+
+        public async Task<Photo> GetMainPhotoForUser(int userId)
+        {
+            return await _context.Photos.Where(u=>u.UserId==userId).FirstOrDefaultAsync(p=>p.isMain);
+            
+        }
     }
 }

@@ -32,10 +32,10 @@ export class MemberDetailComponent implements OnInit {
       imageAnimation: NgxGalleryAnimation.Slide,
       preview: false
     }];
-    this.galleryImages = this.getImages();    
+    this.galleryImages = this.getImages();
   }
 
-  getImages() {
+getImages() {
     const imageUrls = [];
     for (let i = 0; i < this.user.photos.length; i++) {
       imageUrls.push({
@@ -43,9 +43,9 @@ export class MemberDetailComponent implements OnInit {
         medium: this.user.photos[i].url,
         big: this.user.photos[i].url,
         description: this.user.photos[i].description
-      });
-      return imageUrls;
-    }
+      });      
+  }
+  return imageUrls;
   }
   //loadUser() {
   //  this.userService.getUser(+this.route.snapshot.params['id']).subscribe((user: User) => {

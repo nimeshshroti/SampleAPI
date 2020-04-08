@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 
-namespace SampleAPI.Model
+namespace SampleAPI.Controllers
 {
-    public class Photo
+    public class PhotoForReturnDTO
     {
         public int Id { get; set; }
         public string Url { get; set; }
@@ -10,8 +11,5 @@ namespace SampleAPI.Model
         public DateTime Created { get; set; }
         public bool isMain { get; set; }
         public string PublicId { get; set; }
-        public User User{ get; set; }
-        public int UserId { get; set; }
-
     }
 }
