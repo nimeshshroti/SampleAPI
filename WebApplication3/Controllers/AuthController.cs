@@ -41,13 +41,35 @@ namespace SampleAPI.Controllers
              return BadRequest("User already exists, please choose different name");
 
 
-            var UserToCreate = new User()
-            {
-                Username = userForRegisterDTO.username
-            };
+            var UserToCreate = _mapper.Map<User>(userForRegisterDTO);
+                               //commenting below part as now it will be done by automapper.
+                //new User()
+                //{
+                //    Username = userForRegisterDTO.username
+                //};
 
             var CreatedUser = _repo.Register(UserToCreate, userForRegisterDTO.password);
-            return StatusCode(201);
+            try
+            {
+                var UserToReturn = new UserForDetailedDTO()
+                {
+                    Username = CreatedUser.Result.Username,
+                    Id = CreatedUser.Result.Id,
+                    Gender = CreatedUser.Result.Gender,
+                    KnownAs = CreatedUser.Result.KnownAs,
+                    City = CreatedUser.Result.City,
+                    Country = CreatedUser.Result.Country,
+                    Interests = CreatedUser.Result.Interests,
+                    Introduction = CreatedUser.Result.Introduction
+
+
+                }; //_mapper.Map<UserForRegisterDTO>(CreatedUser);
+           
+            //return StatusCode(201);
+            return CreatedAtRoute("GetUser", new { Controller = "Users", id = CreatedUser.Result.Id }, UserToReturn);
+            }
+            catch (Exception ex)
+            { throw ex; }
         }
 
         [HttpPost("login")]

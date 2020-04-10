@@ -40,7 +40,7 @@ namespace SampleAPI.Controllers
             return Ok(UsersToReturn);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name ="GetUser")]
         public async Task<IActionResult> GetUser(int Id)
         {
             var User = await _repo.GetUser(Id);

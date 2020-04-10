@@ -33,10 +33,8 @@ namespace SampleAPI.Helper
             CreateMap<Photo, PhotosForDetailedDTO>();
             CreateMap<UserForUpdateDTO, User>();
             CreateMap<Photo, PhotoForReturnDTO>();
-            CreateMap<PhotoForReturnDTO, Photo>();
-            //check
-            CreateMap<Photo, PhotoForCreationDTO>();
             CreateMap<PhotoForCreationDTO, Photo>();
+            CreateMap<UserForRegisterDTO, User>();
         }
     }
 }
