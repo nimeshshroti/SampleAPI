@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using SampleAPI.Data;
 using SampleAPI.DTOs;
 using SampleAPI.Helper;
+using SampleAPI.Helpers;
 using SampleAPI.Model;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,10 +36,18 @@ namespace SampleAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
-            var Users = await _repo.GetUsers();
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userFromRepo = await _repo.GetUser(currentUserId);
+            userParams.UserId = currentUserId;
+            if(string.IsNullOrEmpty(userParams.Gender))
+            {
+                userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
+            }
+            var Users = await _repo.GetUsers(userParams);
             var UsersToReturn = _mapper.Map<IEnumerable<UserForListDTO>>(Users);
+            Response.AddPagination(Users.CurrentPage, Users.PageSize,Users.TotalCount,Users.TotalPages);
             return Ok(UsersToReturn);
         }
 
