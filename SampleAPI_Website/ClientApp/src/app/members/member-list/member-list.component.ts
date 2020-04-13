@@ -42,9 +42,6 @@ export class MemberListComponent implements OnInit {
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.loadUsers();
-    console.log('Page changed to: ' + event.page);
-    console.log('Number items per page: ' + event.itemsPerPage);
-    console.log('Hola' + this.pagination.currentPage);
   }
 
   loadUsers() {
@@ -55,5 +52,5 @@ export class MemberListComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       });
-      }
+  }
 }

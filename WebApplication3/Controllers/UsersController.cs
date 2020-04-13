@@ -73,6 +73,37 @@ namespace SampleAPI.Controllers
             throw new Exception($"Updating user {id} failed on Save.");
         }
 
+        [HttpPost("{id}/like/{recepientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recepientId)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            { return Unauthorized(); }
 
+            var Like = await _repo.GetLike(id, recepientId);
+
+            if(Like != null )
+            {
+                return BadRequest("You already liked this user.");
+            }
+
+            if(await _repo.GetUser(recepientId) == null)
+            {
+                return NotFound();
+            }
+
+            Like = new Like
+            {
+                LikerId = id,
+                LikeeId = recepientId
+            };
+
+            _repo.Add<Like>(Like);
+
+            if (await _repo.SaveAll())
+            {
+                return Ok();
+            }
+            return BadRequest("Error Occured during like");
+        }
     }
 }

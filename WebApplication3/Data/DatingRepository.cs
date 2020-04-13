@@ -31,12 +31,38 @@ namespace SampleAPI.Data
             return User;
         }
 
+        public async Task<IEnumerable<int>> GetUserLikes(int id, bool likers)
+        {
+            var user = await _context.Users.Include(x=>x.Likers).Include(x=>x.Likees).FirstOrDefaultAsync(u=> u.Id==id);
+
+            if (likers)
+            {
+                return user.Likers.Where(u=> u.LikeeId==id).Select(i=> i.LikerId);
+            }
+            else
+            {
+                return user.Likees.Where(u => u.LikerId == id).Select(i => i.LikeeId);
+            }
+        }
+
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
             var Users = _context.Users.Include(p => p.Photos).OrderByDescending(u=> u.LastActive).AsQueryable();
 
             Users = Users.Where(u => u.Id != userParams.UserId);
             Users = Users.Where(u => u.Gender == userParams.Gender);
+
+            if(userParams.Likees)
+            {
+                var userLikees = await GetUserLikes(userParams.UserId, userParams.Likers);
+                Users = Users.Where(u=> userLikees.Contains(u.Id));
+            }
+
+            if(userParams.Likers)
+            {
+                var userLikers = await GetUserLikes(userParams.UserId, userParams.Likers);
+                Users = Users.Where(u => userLikers.Contains(u.Id));
+            }
 
             if(userParams.MinAge  != 18 || userParams.MaxAge != 99)
             {
@@ -77,6 +103,11 @@ namespace SampleAPI.Data
         {
             return await _context.Photos.Where(u=>u.UserId==userId).FirstOrDefaultAsync(p=>p.isMain);
             
+        }
+
+        public async Task<Like> GetLike(int userId, int recipientId)
+        {
+            return await _context.Likes.FirstOrDefaultAsync(u=>u.LikerId == userId && u.LikeeId == recipientId);
         }
     }
 }
