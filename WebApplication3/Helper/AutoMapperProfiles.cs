@@ -35,6 +35,10 @@ namespace SampleAPI.Helper
             CreateMap<Photo, PhotoForReturnDTO>();
             CreateMap<PhotoForCreationDTO, Photo>();
             CreateMap<UserForRegisterDTO, User>();
+            CreateMap<MessageForCreationDTO, Message>().ReverseMap();
+            CreateMap<Message, MessageToReturnDTO>().
+                ForMember(m=>m.SenderPhotoURL,opt=>opt.MapFrom(u=>u.Sender.Photos.FirstOrDefault(p=>p.isMain).Url))
+                .ForMember(m => m.ReceiverPhotoURL, opt => opt.MapFrom(u => u.Receiver.Photos.FirstOrDefault(p => p.isMain).Url));
         }
     }
 }
